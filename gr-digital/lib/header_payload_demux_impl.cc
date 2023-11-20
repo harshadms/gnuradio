@@ -234,6 +234,7 @@ int header_payload_demux_impl::general_work(int noutput_items,
         // In an ideal world, this would never be called
         // parse_header_data_msg() is the only place that can kick us out
         // of this state.
+        //d_logger->alert("CASSE: STATE_WAIT_FOR_MSG");
         return 0;
 
     case STATE_HEADER_RX_FAIL:
@@ -242,6 +243,7 @@ int header_payload_demux_impl::general_work(int noutput_items,
         //   info
         CONSUME_ITEMS(1);
         d_state = STATE_FIND_TRIGGER;
+        //d_logger->alert("CASSE: STATE_HEADER_RX_FAIL");
         break;
 
     case STATE_FIND_TRIGGER: {
@@ -267,6 +269,7 @@ int header_payload_demux_impl::general_work(int noutput_items,
         // end up with not enough items before the trigger
         const int items_to_consume = trigger_offset - d_header_padding_total_items;
         CONSUME_ITEMS(items_to_consume);
+        //d_logger->alert("CASSE: STATE_FIND_TRIGGER");
         break;
     } /* case STATE_FIND_TRIGGER */
 
@@ -295,6 +298,7 @@ int header_payload_demux_impl::general_work(int noutput_items,
                            2 * d_header_padding_items);
             d_state = STATE_WAIT_FOR_MSG;
         }
+        //d_logger->alert("CASSE: STATE_HEADER");
         break;
 
     case STATE_HEADER_RX_SUCCESS:
@@ -316,9 +320,11 @@ int header_payload_demux_impl::general_work(int noutput_items,
             d_curr_payload_offset = 0;
             d_state = STATE_PAYLOAD;
         }
+        //d_logger->alert("CASSE: STATE_HEADER_RX_SUCCESS");
         break;
 
     case STATE_PAYLOAD:
+        //d_logger->alert("CASSE: STATE_PAYLOAD");
         // Assumptions:
         // - Input buffer is in the right spot to just start copying
         if (check_buffers_ready(d_curr_payload_len,

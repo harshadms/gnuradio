@@ -39,7 +39,7 @@ correlate_access_code_bb_ts_impl::correlate_access_code_bb_ts_impl(
       d_threshold(threshold),
       d_len(0)
 {
-    set_tag_propagation_policy(TPP_DONT);
+    set_tag_propagation_policy(TPP_ALL_TO_ALL);
 
     if (!set_access_code(access_code)) {
         d_logger->error("access_code is > 64 bits");
@@ -56,6 +56,12 @@ correlate_access_code_bb_ts_impl::correlate_access_code_bb_ts_impl(
     d_pkt_count = 0;
     d_hdr_reg = 0;
     d_hdr_count = 0;
+
+    rx_samp_count_found = false;
+    corr_index_found = false;
+    time_est_found = false;
+
+    d_toa = 0.0;
 }
 
 correlate_access_code_bb_ts_impl::~correlate_access_code_bb_ts_impl() {}
@@ -124,6 +130,40 @@ int correlate_access_code_bb_ts_impl::general_work(int noutput_items,
     const unsigned char* in = (const unsigned char*)input_items[0];
     unsigned char* out = (unsigned char*)output_items[0];
 
+    auto offset = nitems_read(0);
+
+    std::vector<tag_t> tags;
+    get_tags_in_range(tags, 0, offset, offset + ninput_items[0]);
+
+    for (const auto& tag : tags)
+    {
+        if (tag.key == pmt::string_to_symbol("rx_samp_count") && !rx_samp_count_found)
+        {
+            rx_samp_count_found = true;
+            d_rx_samp = pmt::to_double(tag.value);
+        }
+
+        if (tag.key == pmt::string_to_symbol("corr_index") && !corr_index_found)
+        {
+            corr_index_found = true;
+            d_corr_index = pmt::to_double(tag.value);
+        }
+
+        if (tag.key == pmt::string_to_symbol("time_est") && !time_est_found)
+        {
+            time_est_found = true;
+            d_time_est = pmt::to_double(tag.value);
+        }
+    }
+
+    if (rx_samp_count_found && time_est_found && corr_index_found)
+    {
+        d_toa = d_rx_samp + d_time_est + d_corr_index;
+        rx_samp_count_found = false;
+        corr_index_found = false;
+        time_est_found = false;
+    }
+
     uint64_t abs_out_sample_cnt = nitems_written(0);
 
     int nprod = 0;
@@ -183,6 +223,16 @@ int correlate_access_code_bb_ts_impl::general_work(int noutput_items,
                              pmt::from_long(d_pkt_len),  // length data
                              d_me);                      // block src id
             }
+            
+            if (d_toa != 0.0)
+            {
+                add_item_tag(0,                          // stream ID
+                            abs_out_sample_cnt + nprod, // sample
+                            pmt::string_to_symbol("peak_toa"), // length key
+                            pmt::from_long(d_toa),  // length data
+                            d_me);  // block src id
+                d_toa = 0.0;
+            }                    
 
             while (count < noutput_items) {
                 if (d_pkt_count < d_pkt_len) {

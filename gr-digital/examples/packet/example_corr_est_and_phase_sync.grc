@@ -109,6 +109,7 @@ blocks:
     const_points: digital.psk_2()[0]
     dims: '1'
     normalization: digital.constellation.AMPLITUDE_NORMALIZATION
+    npwr: '1.0'
     precision: '8'
     rot_sym: '2'
     soft_dec_lut: '''auto'''
@@ -222,6 +223,7 @@ blocks:
     ntaps: 11*sps
     samp_rate: sps
     sym_rate: '1.0'
+    value: ''
   states:
     bus_sink: false
     bus_source: false
@@ -238,6 +240,7 @@ blocks:
     ntaps: 11*sps*nfilts
     samp_rate: sps*nfilts
     sym_rate: '1.0'
+    value: ''
   states:
     bus_sink: false
     bus_source: false
@@ -468,7 +471,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 209]
+    coordinate: [864, 184.0]
     rotation: 0
     state: enabled
 - name: digital_pfb_clock_sync_xxx_0
@@ -694,7 +697,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 291]
+    coordinate: [808, 332.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -1076,4 +1079,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: v3.11.0.0git-34-g95ee7221
+  grc_version: gfe42f6a4a

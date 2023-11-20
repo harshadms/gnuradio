@@ -39,7 +39,7 @@ correlate_access_code_ff_ts_impl::correlate_access_code_ff_ts_impl(
       d_threshold(threshold),
       d_len(0)
 {
-    set_tag_propagation_policy(TPP_DONT);
+    set_tag_propagation_policy(TPP_ALL_TO_ALL);
 
     if (!set_access_code(access_code)) {
         d_logger->error("access_code is > 64 bits");

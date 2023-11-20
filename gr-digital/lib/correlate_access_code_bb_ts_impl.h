@@ -37,6 +37,10 @@ private:
 
     pmt::pmt_t d_key, d_me; // d_key is the tag name, d_me is the block name + unique ID
     int d_pkt_len, d_pkt_count;
+    double d_toa;
+    double d_rx_samp, d_corr_index, d_time_est;
+    
+    bool rx_samp_count_found, corr_index_found, time_est_found;
 
 
     void enter_search();
