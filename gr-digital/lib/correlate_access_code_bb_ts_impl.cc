@@ -39,7 +39,7 @@ correlate_access_code_bb_ts_impl::correlate_access_code_bb_ts_impl(
       d_threshold(threshold),
       d_len(0)
 {
-    set_tag_propagation_policy(TPP_ALL_TO_ALL);
+    set_tag_propagation_policy(TPP_DONT);
 
     if (!set_access_code(access_code)) {
         d_logger->error("access_code is > 64 bits");
@@ -141,18 +141,21 @@ int correlate_access_code_bb_ts_impl::general_work(int noutput_items,
         {
             rx_samp_count_found = true;
             d_rx_samp = pmt::to_double(tag.value);
+            //d_logger->info("samp " + std::to_string(d_rx_samp));
         }
 
         if (tag.key == pmt::string_to_symbol("corr_index") && !corr_index_found)
         {
             corr_index_found = true;
             d_corr_index = pmt::to_double(tag.value);
+            //d_logger->info("d_corr_index " + std::to_string(d_corr_index));
         }
 
         if (tag.key == pmt::string_to_symbol("time_est") && !time_est_found)
         {
             time_est_found = true;
             d_time_est = pmt::to_double(tag.value);
+            //d_logger->info("d_time_est " + std::to_string(d_time_est));
         }
     }
 

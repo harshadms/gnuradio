@@ -54,6 +54,7 @@ correlate_access_code_tag_bb_impl::~correlate_access_code_tag_bb_impl() {}
 
 bool correlate_access_code_tag_bb_impl::set_access_code(const std::string& access_code)
 {
+    set_tag_propagation_policy(TPP_DONT);
     gr::thread::scoped_lock l(d_mutex_access_code);
 
     d_len = access_code.length(); // # of bytes in string
