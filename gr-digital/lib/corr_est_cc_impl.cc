@@ -318,6 +318,11 @@ int corr_est_cc_impl::work(int noutput_items,
                      d_src_id);
         add_item_tag(0,
                      nitems_written(0) + index,
+                     pmt::intern("peak_index"),
+                     pmt::from_double(index+nitems_written(0)+center),
+                     d_src_id);
+        add_item_tag(0,
+                     nitems_written(0) + index,
                      pmt::intern("time_est"),
                      pmt::from_double(center),
                      d_src_id);
@@ -344,6 +349,11 @@ int corr_est_cc_impl::work(int noutput_items,
                      nitems_written(0) + i,
                      pmt::intern("corr_index"),
                      pmt::from_double(i),
+                     d_src_id);
+            add_item_tag(0,
+                     nitems_written(0) + i,
+                     pmt::intern("peak_toa"),
+                     pmt::from_double(i+nitems_written(0)+center),
                      d_src_id);
             add_item_tag(1,
                          nitems_written(0) + i,

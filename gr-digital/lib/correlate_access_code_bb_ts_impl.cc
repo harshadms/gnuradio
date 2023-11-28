@@ -137,35 +137,42 @@ int correlate_access_code_bb_ts_impl::general_work(int noutput_items,
 
     for (const auto& tag : tags)
     {
-        if (tag.key == pmt::string_to_symbol("rx_samp_count") && !rx_samp_count_found)
-        {
-            rx_samp_count_found = true;
-            d_rx_samp = pmt::to_double(tag.value);
-            //d_logger->info("samp " + std::to_string(d_rx_samp));
-        }
+        // if (tag.key == pmt::string_to_symbol("rx_samp_count") && !rx_samp_count_found)
+        // {
+        //     rx_samp_count_found = true;
+        //     d_rx_samp = pmt::to_double(tag.value);
+        //     d_logger->info("samp " + std::to_string(d_rx_samp));
+        // }
 
-        if (tag.key == pmt::string_to_symbol("corr_index") && !corr_index_found)
-        {
-            corr_index_found = true;
-            d_corr_index = pmt::to_double(tag.value);
-            //d_logger->info("d_corr_index " + std::to_string(d_corr_index));
-        }
+        // if (tag.key == pmt::string_to_symbol("corr_index") && !corr_index_found)
+        // {
+        //     corr_index_found = true;
+        //     d_corr_index = pmt::to_double(tag.value);
+        //     d_logger->info("d_corr_index " + std::to_string(d_corr_index));
+        // }
 
-        if (tag.key == pmt::string_to_symbol("time_est") && !time_est_found)
+        // if (tag.key == pmt::string_to_symbol("time_est") && !time_est_found)
+        // {
+        //     time_est_found = true;
+        //     d_time_est = pmt::to_double(tag.value);
+        //     d_logger->info("d_time_est " + std::to_string(d_time_est));
+        // }
+        if (tag.key == pmt::string_to_symbol("peak_index"))
         {
-            time_est_found = true;
-            d_time_est = pmt::to_double(tag.value);
-            //d_logger->info("d_time_est " + std::to_string(d_time_est));
+            //time_est_found = true;
+            d_toa = pmt::to_double(tag.value);
+            d_logger->info("d_toa " + std::to_string(d_toa/500e3));
         }
     }
 
-    if (rx_samp_count_found && time_est_found && corr_index_found)
-    {
-        d_toa = d_rx_samp + d_time_est + d_corr_index;
-        rx_samp_count_found = false;
-        corr_index_found = false;
-        time_est_found = false;
-    }
+    // if (rx_samp_count_found && time_est_found && corr_index_found)
+    // {
+    //     d_toa = d_rx_samp + d_time_est + d_corr_index;
+    //     d_logger->info("d_toa " + std::to_string(d_toa));
+    //     rx_samp_count_found = false;
+    //     corr_index_found = false;
+    //     time_est_found = false;
+    // }
 
     uint64_t abs_out_sample_cnt = nitems_written(0);
 
