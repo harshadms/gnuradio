@@ -345,14 +345,14 @@ int corr_est_cc_impl::work(int noutput_items,
                          pmt::intern("phase_est"),
                          pmt::from_double(phase),
                          d_src_id);
-            add_item_tag(0,
+            add_item_tag(1,
                      nitems_written(0) + i,
                      pmt::intern("corr_index"),
                      pmt::from_double(i),
                      d_src_id);
-            add_item_tag(0,
+            add_item_tag(1,
                      nitems_written(0) + i,
-                     pmt::intern("peak_toa"),
+                     pmt::intern("peak_index"),
                      pmt::from_double(i+nitems_written(0)+center),
                      d_src_id);
             add_item_tag(1,
