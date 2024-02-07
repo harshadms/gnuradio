@@ -318,7 +318,7 @@ int corr_est_cc_impl::work(int noutput_items,
                      d_src_id);
         add_item_tag(0,
                      nitems_written(0) + index,
-                     pmt::intern("peak_index"),
+                     pmt::intern("peak_toa"),
                      pmt::from_double(index+nitems_written(0)+center),
                      d_src_id);
         add_item_tag(0,
@@ -352,24 +352,24 @@ int corr_est_cc_impl::work(int noutput_items,
                      d_src_id);
             add_item_tag(1,
                      nitems_written(0) + i,
-                     pmt::intern("peak_index"),
+                     pmt::intern("peak_toa"),
                      pmt::from_double(i+nitems_written(0)+center),
                      d_src_id);
             add_item_tag(1,
-                         nitems_written(0) + i,
-                         pmt::intern("time_est"),
-                         pmt::from_double(center),
-                         d_src_id);
+                     nitems_written(0) + i,
+                     pmt::intern("time_est"),
+                     pmt::from_double(center),
+                     d_src_id);
             add_item_tag(1,
-                         nitems_written(0) + i,
-                         pmt::intern("corr_est"),
-                         pmt::from_double(d_corr_mag[i]),
-                         d_src_id);
+                     nitems_written(0) + i,
+                     pmt::intern("corr_est"),
+                     pmt::from_double(d_corr_mag[i]),
+                     d_src_id);
             add_item_tag(1,
-                         nitems_written(0) + i,
-                         pmt::intern("amp_est"),
-                         pmt::from_double(d_scale),
-                         d_src_id);
+                     nitems_written(0) + i,
+                     pmt::intern("amp_est"),
+                     pmt::from_double(d_scale),
+                     d_src_id);
         }
 
         // Skip ahead to the next potential symbol peak
